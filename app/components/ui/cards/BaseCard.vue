@@ -23,7 +23,6 @@ const emit = defineEmits(["click"]);
       <div class="flex flex-col gap-2 text-center">
         <h3 class="text-lg font-bold">{{ title }}</h3>
         <p class="text-sm text-gray-500">{{ description }}</p>
-        <p>TEST</p>
       </div>
     </div>
   </div>

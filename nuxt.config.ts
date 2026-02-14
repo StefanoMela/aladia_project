@@ -19,5 +19,8 @@ export default defineNuxtConfig({
     defaults: {
       weights: [400, 500, 600, 700],
     },
-  }
+  },
+  image: {
+    domains: ['images.unsplash.com'],
+  },
 });
