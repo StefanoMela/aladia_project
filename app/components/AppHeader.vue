@@ -1,28 +1,33 @@
-<script setup></script>
+<script setup>
+function clickedBar() {
+  window.alert("click");
+}
+</script>
 
 <template>
-  <header
-    class="container mx-auto flex justify-between items-center p-4 border-4 w-full bg-red"
-  >
-    <div class="flex items-center gap-4">
-      <div class="">
-        <img src="/favicon.ico" alt="Logo" />
-      </div>
-      <div class="">
-        <h1>Aladia</h1>
-      </div>
+  <header class="flex justify-between items-center p-2 bg-black">
+    <NuxtImg
+      class="h-12 py-2.5 pl-0.5 md:h-14"
+      src="/aladia_logo.svg"
+      alt="Logo"
+    />
+    <div
+      class="relative flex min-h-10 flex-1 min-w-0 max-w-md items-center gap-2 text-white"
+    >
+      <Icon name="ph:magnifying-glass" class="size-6 shrink-0" />
+      <input
+        type="text"
+        maxlength="100"
+        class="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-white/50"
+        placeholder="Cerca tutto..."
+        aria-label="Cerca"
+        name="search-bar"
+        @click="clickedBar()"
+      />
+      <div
+        class="absolute bottom-0 left-0 right-0 h-px w-full bg-white/80"
+      ></div>
     </div>
-    <div class="">
-      <ul class="flex gap-4">
-        <NuxtLink to="/" class="text-gray-500">Home</NuxtLink>
-        <NuxtLink to="/courses" class="text-gray-500">Courses</NuxtLink>
-        <NuxtLink to="/about" class="text-gray-500">About</NuxtLink>
-        <NuxtLink to="/contact" class="text-gray-500">Contact</NuxtLink>
-      </ul>
-    </div>
-    <div class="flex gap-4">
-      <button class="btn btn-primary"><BaseButton /></button>
-      <button class="btn btn-secondary"><BaseButton /></button>
-    </div>
+    <BaseButton text="Sign In" size="sm" variant="secondary" />
   </header>
 </template>
