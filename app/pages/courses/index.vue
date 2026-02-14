@@ -1,6 +1,4 @@
 <script setup>
-import BaseCard from "~/components/ui/cards/BaseCard.vue";
-
 definePageMeta({
   layout: "courses",
 });
