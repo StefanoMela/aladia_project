@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex flex-col justify-between align-center">
+  <div>
     <header>
       <AppHeader />
     </header>

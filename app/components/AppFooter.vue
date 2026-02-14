@@ -1,5 +1,6 @@
 <template>
-  <footer class="p-4">
+  <footer class="p-4 border border-red-500">
+    <h1 class="text-bold text-xl text center border border-red-500">FOOTER</h1>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores accusamus
     voluptates nemo, consequuntur quod, repellendus error doloremque sed, iure
     repellat qui quasi dolore corrupti minima aliquam. Sunt tempore fugit totam

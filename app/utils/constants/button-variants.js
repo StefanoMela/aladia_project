@@ -6,7 +6,7 @@ export const sizeClasses = {
 }
 
 export const variantClasses = {
-  primary: 'bg-black/80 text-white border-black/80',
+  primary: 'bg-yellow-400/90 rounded-full',
   secondary: 'bg-gray-500 text-white border-gray-500',
-  outline: 'bg-transparent border-2 border-current text-inherit'
+  outline: 'bg-transparent text-inherit rounded-full'
 }

@@ -1,6 +1,8 @@
 <script setup>
 import { sizeClasses, variantClasses } from "~/utils/constants/button-variants";
 
+defineOptions({ inheritAttrs: false });
+
 const props = defineProps({
   size: {
     type: String,
@@ -18,13 +20,16 @@ const props = defineProps({
 
 const buttonClasses = computed(() => {
   const size = sizeClasses[props.size] ?? sizeClasses.md;
-  const variant = variantClasses[props.variant] ?? variantClasses.primary;
-  return `${size} ${variant}`; 
+  const variant = variantClasses[props.variant] ?? "";
+  return `${size} ${variant}`;
 });
 </script>
 
 <template>
-  <button :class="['rounded flex justify-center items-center', buttonClasses]">
+  <button
+    v-bind="$attrs"
+    :class="['flex justify-center items-center', buttonClasses]"
+  >
     {{ text }}
   </button>
 </template>
