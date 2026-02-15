@@ -31,13 +31,7 @@ const emit = defineEmits(['click'])
     @keydown.space.prevent="emit('click')"
   >
     <slot name="image">
-      <NuxtImg
-        v-if="image"
-        :src="image"
-        :alt="title"
-        class="aspect-video w-full object-cover"
-        loading="lazy"
-      />
+      <NuxtImg v-if="image" :src="image" :alt="title" class="aspect-video w-full object-cover" />
     </slot>
     <div class="flex flex-1 flex-col gap-2 p-4">
       <slot name="header">

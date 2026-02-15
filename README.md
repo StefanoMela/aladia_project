@@ -1,75 +1,200 @@
-# Nuxt Minimal Starter
+# Aladia Project
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Modular frontend project built with Nuxt 4, featuring a reusable UI component library with TailwindCSS, ESLint, and Prettier.
 
 ## Setup
 
-Make sure to install dependencies:
-
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+## Tech Stack
 
-Build the application for production:
+- **Nuxt 4** – Vue 3 framework
+- **TailwindCSS** – Styling
+- **ESLint + Prettier** – Linting and formatting
+- **@nuxt/icon** – Icon system (Phosphor)
+- **@nuxt/image** – Image optimization
 
-```bash
-# npm
-npm run build
+---
 
-# pnpm
-pnpm build
+## UI Component Library
 
-# yarn
-yarn build
+All components use Vue 3 Composition API with `<script setup>`, support props, slots, and events, and include accessibility (ARIA) and responsive behavior.
 
-# bun
-bun run build
+### 1. BaseButton
+
+**Path:** `app/components/ui/buttons/BaseButton.vue`
+
+| Prop      | Type   | Default   | Description              |
+|-----------|--------|-----------|--------------------------|
+| `size`    | String | —         | `sm`, `md`, `lg`, `xl`   |
+| `text`    | String | —         | Default slot content     |
+| `variant` | String | `primary` | `primary`, `secondary`, `outline` |
+| `ariaLabel` | String | —       | Accessibility label      |
+
+**Slots:** `default` (fallback: `text` prop)
+
+**Events:** `@click`
+
+```vue
+<BaseButton text="Submit" size="md" variant="primary" @click="handleSubmit" />
+<BaseButton variant="secondary">
+  <Icon name="ph:check" /> Custom content
+</BaseButton>
 ```
 
-Locally preview production build:
+---
 
-```bash
-# npm
-npm run preview
+### 2. BaseCard
 
-# pnpm
-pnpm preview
+**Path:** `app/components/ui/cards/BaseCard.vue`
 
-# yarn
-yarn preview
+| Prop          | Type   | Required | Description |
+|---------------|--------|----------|-------------|
+| `title`       | String | ✓        | Card title  |
+| `description` | String | ✓        | Card body text |
+| `image`       | String | ✓        | Image URL   |
 
-# bun
-bun run preview
+**Slots:** `image`, `header`, `description`, `default`
+
+**Events:** `@click` (keyboard: Enter, Space)
+
+**Accessibility:** `role="button"`, `tabindex="0"`, `aria-labelledby`, `aria-describedby`
+
+```vue
+<BaseCard
+  title="Course 1"
+  description="Description here"
+  image="/image.jpg"
+  @click="navigateTo('/courses/1')"
+/>
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+---
+
+### 3. BaseModal
+
+**Path:** `app/components/ui/modals/BaseModal.vue`
+
+| Prop         | Type    | Default  | Description      |
+|--------------|---------|----------|------------------|
+| `modelValue` | Boolean | `false`  | Open/close state |
+| `title`      | String  | `''`     | Header title     |
+
+**Slots:** `header`, `default`, `footer`
+
+**Events:** `update:modelValue` (v-model)
+
+**Accessibility:** `role="dialog"`, `aria-modal`, `aria-labelledby`, `aria-describedby`, Escape to close
+
+```vue
+<BaseModal v-model="isOpen" title="Confirm">
+  <p>Content here</p>
+  <template #footer>
+    <BaseButton text="Close" @click="isOpen = false" />
+  </template>
+</BaseModal>
+```
+
+---
+
+### 4. BaseInput
+
+**Path:** `app/components/ui/inputs/BaseInput.vue`
+
+| Prop            | Type           | Default | Description       |
+|-----------------|----------------|---------|-------------------|
+| `modelValue`    | String, Number | `''`    | Input value       |
+| `type`          | String         | `text`  | Input type        |
+| `placeholder`   | String         | `''`    | Placeholder       |
+| `ariaLabel`     | String         | `''`    | Accessibility     |
+| `ariaDescribedby` | String       | `''`    | Described by ID   |
+
+**Slots:** `prefix`, `suffix`
+
+**Events:** `update:modelValue`, `input`
+
+```vue
+<BaseInput
+  v-model="email"
+  type="email"
+  placeholder="Enter email"
+  aria-label="Email"
+/>
+```
+
+---
+
+### 5. BaseTabs
+
+**Path:** `app/components/ui/BaseTabs.vue`
+
+| Prop         | Type           | Default | Description          |
+|--------------|----------------|---------|----------------------|
+| `tabs`       | Array          | —       | Tab definitions      |
+| `modelValue` | String, Number | `null`  | Active tab (id or index) |
+| `imageAlt`   | String         | `''`    | Image alt override   |
+
+Each tab: `{ id, label, heading, description, icon?, image? }`
+
+**Slots:** `panel-{tabId}` (e.g. `#panel-spaces`)
+
+**Events:** `update:modelValue`
+
+```vue
+<BaseTabs v-model="activeTab" :tabs="tabs">
+  <template #panel-spaces>Content 1</template>
+  <template #panel-courses>Content 2</template>
+</BaseTabs>
+```
+
+---
+
+## Additional Components
+
+- **BaseToast** – Notifications (`ui/modals/BaseToast.vue`)
+- **BaseCarousel** – Image carousel (`ui/BaseCarousel.vue`)
+- **BaseTextarea** – Text area (`ui/inputs/BaseTextarea.vue`)
+- **SearchBar** – Search input (`ui/inputs/SearchBar.vue`)
+
+---
+
+## Project Structure
+
+```
+app/
+├── components/
+│   ├── ui/
+│   │   ├── buttons/BaseButton.vue
+│   │   ├── cards/BaseCard.vue
+│   │   ├── inputs/BaseInput.vue, BaseTextarea.vue, SearchBar.vue
+│   │   ├── modals/BaseModal.vue, BaseToast.vue
+│   │   ├── BaseTabs.vue
+│   │   └── BaseCarousel.vue
+│   ├── AppHeader.vue
+│   └── AppFooter.vue
+├── layouts/
+│   ├── default.vue
+│   └── courses.vue
+├── pages/
+│   ├── index.vue
+│   └── courses/
+│       ├── index.vue
+│       └── [id].vue
+└── utils/constants/
+    ├── button-variants.js
+    └── toast-variants.js
+```
+
+---
+
+## Scripts
+
+| Command   | Description        |
+|-----------|--------------------|
+| `npm run dev`   | Development server |
+| `npm run build` | Production build   |
+| `npm run lint`  | ESLint             |
+| `npm run format`| Prettier           |
