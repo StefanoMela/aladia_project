@@ -19,6 +19,11 @@ const props = defineProps({
   ariaDescribedby: {
     type: String,
     default: ''
+  },
+  variant: {
+    type: String,
+    default: 'default',
+    validator: (v) => ['default', 'ghost'].includes(v)
   }
 })
 
@@ -34,7 +39,12 @@ function onInput(event) {
 </script>
 
 <template>
-  <div class="flex w-full items-center gap-2">
+  <div
+    class="relative flex w-full min-w-0 items-center gap-2 transition-colors"
+    :class="variant === 'ghost'
+      ? 'border-b border-white/80 text-white focus-within:border-white'
+      : 'rounded-md border border-gray-300 focus-within:border-black focus-within:ring-1 focus-within:ring-black'"
+  >
     <slot name="prefix" />
     <input
       :id="inputId"
@@ -43,7 +53,10 @@ function onInput(event) {
       :placeholder="placeholder"
       :aria-label="ariaLabel || undefined"
       :aria-describedby="ariaDescribedby || undefined"
-      class="w-full rounded-md border border-gray-300 p-2 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+      class="min-w-0 flex-1 bg-transparent py-2 text-sm outline-none md:text-base"
+      :class="variant === 'ghost'
+        ? 'text-white placeholder:text-white/50'
+        : 'rounded-md p-2 placeholder:text-gray-500'"
       @input="onInput"
     />
     <slot name="suffix" />

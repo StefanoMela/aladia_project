@@ -15,7 +15,7 @@ function onSearch(value) {
       alt="Logo"
       @click="navigateTo('/')"
     />
-    <div class="flex flex-1 min-w-0 max-w-md">
+    <div class="flex min-w-0 flex-1 max-w-[140px] sm:max-w-[200px] md:max-w-md">
       <SearchBar v-model="search" @search="onSearch" />
     </div>
     <BaseButton text="Sign In" size="sm" variant="secondary" />
