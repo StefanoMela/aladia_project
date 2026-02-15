@@ -38,11 +38,21 @@ const activeId = computed({
 })
 
 const activeTab = computed(
-  () => props.tabs.find((t) => t.id === activeId.value) ?? props.tabs[0]
+  () => props.tabs.find((t) => t.id === activeId.value) ?? props.tabs[0]?.id ?? null
 )
 
 function selectTab(id) {
   activeId.value = id
+}
+
+const isModalOpen = ref(false)
+const isConfirmationToastOpen = ref(false)
+const modalEmail = ref('')
+const modalMessage = ref('')
+
+function onSendClick() {
+  isModalOpen.value = false
+  isConfirmationToastOpen.value = true
 }
 </script>
 
@@ -57,7 +67,7 @@ function selectTab(id) {
       >
         <button
           v-for="(tab, index) in props.tabs"
-          :key="tab.index"
+          :key="index"
           type="button"
           role="tab"
           :aria-selected="activeId === tab.id"
@@ -72,12 +82,7 @@ function selectTab(id) {
           "
           @click="selectTab(tab.id)"
         >
-          <Icon
-            v-if="tab.icon"
-            :name="tab.icon"
-            class="size-4 shrink-0"
-            aria-hidden="true"
-          />
+          <Icon v-if="tab.icon" :name="tab.icon" class="size-4 shrink-0" aria-hidden="true" />
           <span class="hidden sm:inline">{{ tab.label }}</span>
         </button>
       </div>
@@ -93,7 +98,7 @@ function selectTab(id) {
         >
           <div
             v-for="tab in props.tabs"
-            :key="`img-${tab.id}`"
+            :key="index"
             class="absolute inset-0 transition-opacity duration-500"
             :class="activeId === tab.id ? 'opacity-100' : 'pointer-events-none opacity-0'"
           >
@@ -111,7 +116,7 @@ function selectTab(id) {
         <div class="relative min-h-[200px] flex-1 md:min-h-[280px]">
           <div
             v-for="tab in props.tabs"
-            :key="`content-${tab.id}`"
+            :key="index"
             :id="`panel-${tab.id}`"
             role="tabpanel"
             :aria-labelledby="`tab-${tab.id}`"
@@ -143,13 +148,44 @@ function selectTab(id) {
             </p>
             <slot :name="`panel-${tab.id}`" :tab="tab" :is-active="activeId === tab.id">
               <BaseButton
-                text="Scopri di più"
+                text="Discover more"
                 size="md"
                 variant="primary"
                 class="mt-8"
+                @click="isModalOpen = true"
               />
             </slot>
           </div>
+          <BaseModal v-model="isModalOpen" :title="activeTab?.heading" :is-open="isModalOpen">
+            <slot name="modal-content">
+              <p>
+                {{ activeTab?.description }}
+              </p>
+              <div class="mt-4 flex flex-col gap-4">
+                <span class="mt-4 text-sm font-bold text-gray-500">Ask for more information</span>
+                <BaseInput
+                  v-model="modalEmail"
+                  type="email"
+                  placeholder="Enter your email"
+                  aria-label="Email"
+                  class="w-1/2"
+                />
+                <BaseTextarea
+                  v-model="modalMessage"
+                  placeholder="Enter your message"
+                  aria-label="Message"
+                  class="w-1/2"
+                />
+                <BaseButton text="Send" size="md" variant="primary" @click="onSendClick" />
+              </div>
+            </slot>
+          </BaseModal>
+          <BaseToast
+            v-model="isConfirmationToastOpen"
+            title="Confirmed"
+            message="Your message has been sent."
+            variant="success"
+          />
         </div>
       </div>
     </div>

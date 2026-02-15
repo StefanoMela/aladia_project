@@ -4,7 +4,7 @@
       <AppHeader />
     </header>
 
-    <main>
+    <main class="bg-black/90 text-white">
       <slot />
     </main>
 

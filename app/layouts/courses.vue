@@ -1,14 +1,14 @@
 <template>
-  <div class="w-full h-full">
-    <header class="w-full h-full">
+  <div>
+    <header>
       <AppHeader />
     </header>
 
-    <main class="w-full h-full">
+    <main>
       <slot />
     </main>
 
-    <footer class="w-full h-full">
+    <footer>
       <AppFooter />
     </footer>
   </div>

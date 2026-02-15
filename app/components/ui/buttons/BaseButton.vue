@@ -1,37 +1,41 @@
 <script setup>
-import { sizeClasses, variantClasses } from "~/utils/constants/button-variants";
-
-defineOptions({ inheritAttrs: false });
+import { sizeClasses, variantClasses } from '~/utils/constants/button-variants'
 
 const props = defineProps({
   size: {
     type: String,
-    required: false,
+    required: false
   },
   text: {
     type: String,
-    required: true,
+    required: false
   },
   variant: {
     type: String,
-    required: false,
+    required: false
   },
-});
+  ariaLabel: {
+    type: String,
+    default: ''
+  }
+})
+
+const emit = defineEmits(['click'])
 
 const buttonClasses = computed(() => {
-  const size = sizeClasses[props.size] ?? sizeClasses.md;
-  const variant = variantClasses[props.variant] ?? "";
-  return `${size} ${variant}`;
-});
+  const size = sizeClasses[props.size] ?? sizeClasses.md
+  const variant = variantClasses[props.variant] ?? variantClasses.primary
+  return `${size} ${variant}`
+})
 </script>
 
 <template>
   <button
-    v-bind="$attrs"
-    :class="['flex justify-center items-center', buttonClasses]"
+    type="button"
+    :class="['flex items-center justify-center rounded', buttonClasses]"
+    :aria-label="ariaLabel || text || undefined"
+    @click="emit('click')"
   >
-    {{ text }}
+    <slot>{{ text }}</slot>
   </button>
 </template>
-
-<style scoped></style>

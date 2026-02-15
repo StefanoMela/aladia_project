@@ -21,6 +21,6 @@ export default defineNuxtConfig({
     },
   },
   image: {
-    domains: ['images.unsplash.com'],
+    domains: ['images.unsplash.com', 'picsum.photos', 'via.placeholder.com'],
   },
 });
