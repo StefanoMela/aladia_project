@@ -64,6 +64,8 @@ watch(
         <NuxtImg
           :src="img.src"
           :alt="img.alt ?? `Slide ${index + 1}`"
+          :loading="index <= 1 ? 'eager' : 'lazy'"
+          :fetchpriority="index === 0 ? 'high' : undefined"
           class="size-full object-cover"
           fit="cover"
         />

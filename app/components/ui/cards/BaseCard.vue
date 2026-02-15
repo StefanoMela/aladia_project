@@ -13,6 +13,11 @@ const props = defineProps({
   image: {
     type: String,
     required: true
+  },
+  /** 'eager' per above-the-fold, 'lazy' per below-the-fold */
+  loading: {
+    type: String,
+    default: 'eager'
   }
 })
 
@@ -31,7 +36,14 @@ const emit = defineEmits(['click'])
     @keydown.space.prevent="emit('click')"
   >
     <slot name="image">
-      <NuxtImg v-if="image" :src="image" :alt="title" class="aspect-video w-full object-cover" />
+      <div v-if="image" class="relative aspect-video w-full bg-gray-200">
+        <NuxtImg
+          :src="image"
+          :alt="title"
+          :loading="loading"
+          class="size-full object-cover"
+        />
+      </div>
     </slot>
     <div class="flex flex-1 flex-col gap-2 p-4">
       <slot name="header">

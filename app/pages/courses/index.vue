@@ -9,20 +9,20 @@ definePageMeta({
     <h1 class="text-center text-4xl font-bold my-8 uppercase">courses list</h1>
     <div class="flex flex-col sm:flex-row justify-center align-center gap-4 container w-full my-8 p-4">
       <BaseCard
-        title="Course 1"
-        description="Course 1 description"
+        title="Web Development"
+        description="Web Development course for beginners"
         image="https://picsum.photos/id/1/1920/1080"
         @click="navigateTo('/courses/1')"
       />
       <BaseCard
-        title="Course 2"
-        description="Course 2 description"
+        title="AI Development"
+        description="AI Development course for beginners"
         image="https://picsum.photos/id/2/1920/1080"
         @click="navigateTo('/courses/2')"
       />
       <BaseCard
-        title="Course 3"
-        description="Course 3 description"
+        title="Cybersecurity"
+        description="Cybersecurity course for beginners"
         image="https://picsum.photos/id/3/1920/1080"
         @click="navigateTo('/courses/3')"
       />
