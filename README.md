@@ -51,11 +51,12 @@ All components use Vue 3 Composition API with `<script setup>`, support props, s
 
 **Path:** `app/components/ui/cards/BaseCard.vue`
 
-| Prop          | Type   | Required | Description |
-|---------------|--------|----------|-------------|
-| `title`       | String | ✓        | Card title  |
-| `description` | String | ✓        | Card body text |
-| `image`       | String | ✓        | Image URL   |
+| Prop          | Type   | Required | Description                                  |
+|---------------|--------|----------|----------------------------------------------|
+| `title`       | String | ✓        | Card title                                   |
+| `description` | String | ✓        | Card body text                               |
+| `image`       | String | ✓        | Image URL                                    |
+| `loading`     | String | —        | `eager`, `lazy`
 
 **Slots:** `image`, `header`, `description`, `default`
 
@@ -104,13 +105,14 @@ All components use Vue 3 Composition API with `<script setup>`, support props, s
 
 **Path:** `app/components/ui/inputs/BaseInput.vue`
 
-| Prop            | Type           | Default | Description       |
-|-----------------|----------------|---------|-------------------|
-| `modelValue`    | String, Number | `''`    | Input value       |
-| `type`          | String         | `text`  | Input type        |
-| `placeholder`   | String         | `''`    | Placeholder       |
-| `ariaLabel`     | String         | `''`    | Accessibility     |
-| `ariaDescribedby` | String       | `''`    | Described by ID   |
+| Prop            | Type           | Default   | Description                    |
+|-----------------|----------------|-----------|--------------------------------|
+| `modelValue`    | String, Number | `''`      | Input value                    |
+| `type`          | String         | `text`    | Input type                     |
+| `placeholder`   | String         | `''`      | Placeholder                    |
+| `ariaLabel`     | String         | `''`      | Accessibility                  |
+| `ariaDescribedby` | String       | `''`      | Described by ID                |
+| `variant`       | String         | `default` | `default` (bordered), `ghost` (transparent, for dark headers) |
 
 **Slots:** `prefix`, `suffix`
 
@@ -123,6 +125,11 @@ All components use Vue 3 Composition API with `<script setup>`, support props, s
   placeholder="Enter email"
   aria-label="Email"
 />
+<BaseInput v-model="search" variant="ghost" placeholder="Cerca...">
+  <template #prefix>
+    <Icon name="ph:magnifying-glass" />
+  </template>
+</BaseInput>
 ```
 
 ---
@@ -157,7 +164,23 @@ Each tab: `{ id, label, heading, description, icon?, image? }`
 - **BaseToast** – Notifications (`ui/modals/BaseToast.vue`)
 - **BaseCarousel** – Image carousel (`ui/BaseCarousel.vue`)
 - **BaseTextarea** – Text area (`ui/inputs/BaseTextarea.vue`)
-- **SearchBar** – Search input (`ui/inputs/SearchBar.vue`)
+- **SearchBar** – Search input built on BaseInput with `variant="ghost"` and prefix icon (`ui/inputs/SearchBar.vue`)
+
+### SearchBar
+
+**Path:** `app/components/ui/inputs/SearchBar.vue`
+
+| Prop         | Type   | Default | Description   |
+|--------------|--------|---------|---------------|
+| `modelValue` | String | `''`    | Search query  |
+
+**Events:** `update:modelValue`, `@search` (on form submit / Enter)
+
+**Usage:** Wraps BaseInput with `prefix` slot for icon. Responsive: parent container uses `max-w-[140px]` (mobile), `max-w-[200px]` (sm), `max-w-md` (md+).
+
+```vue
+<SearchBar v-model="search" @search="onSearch" />
+```
 
 ---
 
@@ -175,6 +198,8 @@ app/
 │   │   └── BaseCarousel.vue
 │   ├── AppHeader.vue
 │   └── AppFooter.vue
+├── composables/
+│   └── useCourses.js
 ├── layouts/
 │   ├── default.vue
 │   └── courses.vue
@@ -187,6 +212,27 @@ app/
     ├── button-variants.js
     └── toast-variants.js
 ```
+
+---
+
+## Composables
+
+### useCourses
+
+**Path:** `app/composables/useCourses.js`
+
+- `courses` – Array of course objects (`id`, `title`, `description`, `image`, `tags`)
+- `coursesByTag()` – Returns sections grouped by tag: `[{ tag, courses }]`
+- `getCourseById(id)` – Returns course by id
+
+Courses are grouped into three tags: **Web Development**, **Data & AI**, **Cybersecurity**.
+
+---
+
+## Pages & Layouts
+
+- **Layouts** use `min-h-screen flex flex-col` and `main` has `flex-1` for full viewport height and no white space on short pages.
+- **Courses index** (`/courses`) – Card sections by tag with horizontal scroll, snap, and thin scrollbar.
 
 ---
 
